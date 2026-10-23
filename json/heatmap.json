@@ -1,0 +1,346 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "background": "transparent",
+    "data": {
+        "url": "https://raw.githubusercontent.com/cheehsian-1120/FIT3179/main/data/graph_3.csv"
+    },
+    "transform": [
+        {
+            "fold": [
+                "Arthritis",
+                "Asthma",
+                "Dorsopathies",
+                "Cancer",
+                "Chronic Obstructive Pulmonary Disease",
+                "Diabetes Mellitus",
+                "Heart, Stroke and Vascular Disease",
+                "Kidney Disease",
+                "Mental and Behavioural Conditions",
+                "Osteoporosis"
+            ],
+            "as": [
+                "Secondary_Condition",
+                "Probability"
+            ]
+        },
+        {
+            "calculate": "indexof(['Arthritis', 'Asthma', 'Dorsopathies', 'Cancer', 'Chronic Obstructive Pulmonary Disease', 'Diabetes Mellitus', 'Heart, Stroke and Vascular Disease', 'Kidney Disease', 'Mental and Behavioural Conditions', 'Osteoporosis'], datum['Comorbidity Condition'])",
+            "as": "Primary_Index"
+        },
+        {
+            "calculate": "indexof(['Arthritis', 'Asthma', 'Dorsopathies', 'Cancer', 'Chronic Obstructive Pulmonary Disease', 'Diabetes Mellitus', 'Heart, Stroke and Vascular Disease', 'Kidney Disease', 'Mental and Behavioural Conditions', 'Osteoporosis'], datum.Secondary_Condition)",
+            "as": "Secondary_Index"
+        },
+        {
+            "filter": "datum.Primary_Index > datum.Secondary_Index"
+        },
+        {
+            "calculate": "datum['Comorbidity Condition'] == 'Heart, Stroke and Vascular Disease' ? datum.Secondary_Condition : (datum.Secondary_Condition == 'Heart, Stroke and Vascular Disease' ? datum['Comorbidity Condition'] : 'Other')",
+            "as": "Focus_Disease"
+        }
+    ],
+    "hconcat": [
+        {
+            "width": {
+                "step": 48
+            },
+            "height": {
+                "step": 48
+            },
+            "layer": [
+                {
+                    "params": [
+                        {
+                            "name": "hover",
+                            "select": {
+                                "type": "point",
+                                "on": "mouseover",
+                                "clear": "mouseout",
+                                "fields": [
+                                    "Focus_Disease"
+                                ]
+                            }
+                        }
+                    ],
+                    "mark": {
+                        "type": "rect",
+                        "stroke": "white",
+                        "strokeWidth": 2
+                    },
+                    "encoding": {
+                        "x": {
+                            "field": "Secondary_Condition",
+                            "type": "nominal",
+                            "title": null,
+                            "sort": [
+                                "Arthritis",
+                                "Asthma",
+                                "Dorsopathies",
+                                "Cancer",
+                                "Chronic Obstructive Pulmonary Disease",
+                                "Diabetes Mellitus",
+                                "Heart, Stroke and Vascular Disease",
+                                "Kidney Disease",
+                                "Mental and Behavioural Conditions",
+                                "Osteoporosis"
+                            ],
+                            "axis": {
+                                "labelAngle": -45,
+                                "labelFontSize": {
+                                    "expr": "datum.value === 'Heart, Stroke and Vascular Disease' ? 14 : 13"
+                                },
+                                "labelAlign": "right",
+                                "labelBaseline": "middle",
+                                "labelLineHeight": 14,
+                                "labelFontWeight": {
+                                    "expr": "datum.value === 'Heart, Stroke and Vascular Disease' ? 'bold' : 'normal'"
+                                },
+                                "labelColor": {
+                                    "expr": "datum.value === 'Heart, Stroke and Vascular Disease' ? '#3d7a77' : '#555'"
+                                },
+                                "domain": false,
+                                "ticks": false,
+                                "labelExpr": "datum.value == 'Heart, Stroke and Vascular Disease' ? ['Heart, Stroke', '& Vascular Disease'] : datum.value == 'Chronic Obstructive Pulmonary Disease' ? ['Chronic Obstructive', 'Pulmonary Disease'] : datum.value == 'Mental and Behavioural Conditions' ? ['Mental &', 'Behavioural Conditions'] : datum.value"
+                            }
+                        },
+                        "y": {
+                            "field": "Comorbidity Condition",
+                            "type": "nominal",
+                            "title": null,
+                            "sort": [
+                                "Arthritis",
+                                "Asthma",
+                                "Dorsopathies",
+                                "Cancer",
+                                "Chronic Obstructive Pulmonary Disease",
+                                "Diabetes Mellitus",
+                                "Heart, Stroke and Vascular Disease",
+                                "Kidney Disease",
+                                "Mental and Behavioural Conditions",
+                                "Osteoporosis"
+                            ],
+                            "axis": {
+                                "labelFontSize": {
+                                    "expr": "datum.value === 'Heart, Stroke and Vascular Disease' ? 14 : 13"
+                                },
+                                "labelAlign": "right",
+                                "labelBaseline": "middle",
+                                "labelLineHeight": 14,
+                                "labelFontWeight": {
+                                    "expr": "datum.value === 'Heart, Stroke and Vascular Disease' ? 'bold' : 'normal'"
+                                },
+                                "labelColor": {
+                                    "expr": "datum.value === 'Heart, Stroke and Vascular Disease' ? '#3d7a77' : '#555'"
+                                },
+                                "domain": false,
+                                "ticks": false,
+                                "labelExpr": "datum.value == 'Heart, Stroke and Vascular Disease' ? ['Heart, Stroke', '& Vascular Disease'] : datum.value == 'Chronic Obstructive Pulmonary Disease' ? ['Chronic Obstructive', 'Pulmonary Disease'] : datum.value == 'Mental and Behavioural Conditions' ? ['Mental &', 'Behavioural Conditions'] : datum.value"
+                            }
+                        },
+                        "color": {
+                            "field": "Probability",
+                            "type": "quantitative",
+                            "scale": {
+                                "range": [
+                                    "#e4ecea",
+                                    "#699e9b",
+                                    "#3d7a77"
+                                ],
+                                "domain": [
+                                    0,
+                                    50
+                                ]
+                            },
+                            "legend": {
+                                "title": "Probability (%)",
+                                "orient": "none",
+                                "legendX": 280,
+                                "legendY": -5,
+                                "direction": "horizontal",
+                                "titleFontSize": 14,
+                                "titleColor": "#555",
+                                "labelFontSize": 13,
+                                "labelColor": "#555",
+                                "gradientLength": 160
+                            }
+                        },
+                        "opacity": {
+                            "condition": {
+                                "param": "hover",
+                                "empty": true,
+                                "value": 1
+                            },
+                            "value": 0.2
+                        },
+                        "tooltip": [
+                            {
+                                "field": "Comorbidity Condition",
+                                "title": "Primary Condition"
+                            },
+                            {
+                                "field": "Secondary_Condition",
+                                "title": "Secondary Condition"
+                            },
+                            {
+                                "field": "Probability",
+                                "type": "quantitative",
+                                "format": ".1f",
+                                "title": "Probability (%)"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "mark": {
+                        "type": "text",
+                        "fontSize": 13,
+                        "fontWeight": "bold"
+                    },
+                    "encoding": {
+                        "x": {
+                            "field": "Secondary_Condition",
+                            "type": "nominal",
+                            "sort": [
+                                "Arthritis",
+                                "Asthma",
+                                "Dorsopathies",
+                                "Cancer",
+                                "Chronic Obstructive Pulmonary Disease",
+                                "Diabetes Mellitus",
+                                "Heart, Stroke and Vascular Disease",
+                                "Kidney Disease",
+                                "Mental and Behavioural Conditions",
+                                "Osteoporosis"
+                            ]
+                        },
+                        "y": {
+                            "field": "Comorbidity Condition",
+                            "type": "nominal",
+                            "sort": [
+                                "Arthritis",
+                                "Asthma",
+                                "Dorsopathies",
+                                "Cancer",
+                                "Chronic Obstructive Pulmonary Disease",
+                                "Diabetes Mellitus",
+                                "Heart, Stroke and Vascular Disease",
+                                "Kidney Disease",
+                                "Mental and Behavioural Conditions",
+                                "Osteoporosis"
+                            ]
+                        },
+                        "color": {
+                            "condition": {
+                                "test": "datum.Probability > 25",
+                                "value": "white"
+                            },
+                            "value": "#555"
+                        },
+                        "text": {
+                            "condition": {
+                                "test": "datum.Focus_Disease != 'Other' && datum.Probability > 0",
+                                "field": "Probability",
+                                "type": "quantitative",
+                                "format": ".0f"
+                            },
+                            "value": ""
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "width": 220,
+            "height": {
+                "step": 48
+            },
+            "transform": [
+                {
+                    "filter": "datum.Focus_Disease != 'Other'"
+                }
+            ],
+            "params": [
+                {
+                    "name": "hover",
+                    "select": {
+                        "type": "point",
+                        "on": "mouseover",
+                        "clear": "mouseout",
+                        "fields": [
+                            "Focus_Disease"
+                        ]
+                    }
+                }
+            ],
+            "mark": {
+                "type": "bar",
+                "cornerRadiusEnd": 3
+            },
+            "encoding": {
+                "y": {
+                    "field": "Focus_Disease",
+                    "type": "nominal",
+                    "sort": "-x",
+                    "axis": {
+                        "title": null,
+                        "labelFontSize": 13,
+                        "labelColor": "#555",
+                        "labelAlign": "right",
+                        "labelBaseline": "middle",
+                        "labelLineHeight": 14,
+                        "grid": false,
+                        "ticks": false,
+                        "labelExpr": "datum.value == 'Heart, Stroke and Vascular Disease' ? ['Heart, Stroke', '& Vascular Disease'] : datum.value == 'Chronic Obstructive Pulmonary Disease' ? ['Chronic Obstructive', 'Pulmonary Disease'] : datum.value == 'Mental and Behavioural Conditions' ? ['Mental &', 'Behavioural Conditions'] : datum.value"
+                    }
+                },
+                "x": {
+                    "field": "Probability",
+                    "type": "quantitative",
+                    "title": "Probability (%)",
+                    "axis": {
+                        "titleFontSize": 14,
+                        "titleColor": "#555",
+                        "labelFontSize": 13,
+                        "labelColor": "#555",
+                        "grid": true,
+                        "gridColor": "#f0f0f0"
+                    }
+                },
+                "color": {
+                    "value": "#3d7a77"
+                },
+                "opacity": {
+                    "condition": {
+                        "param": "hover",
+                        "empty": true,
+                        "value": 1
+                    },
+                    "value": 0.2
+                },
+                "tooltip": [
+                    {
+                        "field": "Focus_Disease",
+                        "title": "Comorbidity"
+                    },
+                    {
+                        "field": "Probability",
+                        "type": "quantitative",
+                        "format": ".1f",
+                        "title": "Probability (%)"
+                    }
+                ]
+            }
+        }
+    ],
+    "spacing": 90,
+    "resolve": {
+        "scale": {
+            "y": "independent"
+        }
+    },
+    "config": {
+        "view": {
+            "stroke": "transparent"
+        }
+    }
+}

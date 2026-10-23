@@ -1,0 +1,138 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "background": "transparent",
+    "width": 800,
+    "height": 600,
+    "projection": {
+        "type": "conicEqualArea",
+        "parallels": [-18, -36],
+        "rotate": [-132, 0, 0],
+        "center": [0, -28.5], 
+        "scale": 900
+    },
+    "layer": [
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/cheehsian-1120/FIT3179/main/json/australia_state.topojson",
+                "format": {
+                    "type": "topojson",
+                    "feature": "STE_2021_AUST_GDA2020"
+                }
+            },
+            "transform": [
+                {
+                    "lookup": "properties.STE_NAME21",
+                    "from": {
+                        "data": {
+                            "url": "https://raw.githubusercontent.com/cheehsian-1120/FIT3179/main/data/graph_4b.csv"
+                        },
+                        "key": "State & Territory",
+                        "fields": ["ASR"]
+                    }
+                }
+            ],
+            "mark": {
+                "type": "geoshape",
+                "stroke": "#000000",
+                "strokeWidth": 0.4
+            },
+            "encoding": {
+                "color": {
+                    "field": "ASR",
+                    "type": "quantitative",
+                    "scale": {
+                        "type": "linear",
+                        "domain": [3.5, 5.0],
+                        "range": ["#f4a582", "#d6604d", "#b2182b", "#8c1527"]
+                    },
+                    "legend": {
+                        "title": "Age-Standardize Rate (per 100k)",
+                        "orient": "none",
+                        "legendX": 120,
+                        "legendY": 490,
+                        "direction": "horizontal",
+                        "titleFontSize": 14.5,
+                        "titleColor": "#444",
+                        "labelFontSize": 13,
+                        "labelColor": "#555",
+                        "titleLimit": 500,
+                        "gradientLength": 220,
+                        "offset": -100,
+                        "padding": 10
+                    }
+                },
+                "tooltip": [
+                    {"field": "properties.STE_NAME21", "title": "State/Territory", "type": "nominal"},
+                    {"field": "ASR", "title": "Age-Standardised Rate", "type": "quantitative", "format": ".2f"}
+                ]
+            }
+        },
+        {
+            "data": {
+                "values": [
+                    {"state": "Western Australia", "lon": 122.0, "lat": -25.0},
+                    {"state": "Northern Territory", "lon": 133.5, "lat": -20.0},
+                    {"state": "South Australia", "lon": 135.5, "lat": -30.0},
+                    {"state": "Queensland", "lon": 144.0, "lat": -22.5},
+                    {"state": "New South Wales", "lon": 147.0, "lat": -32.0},
+                    {"state": "Victoria", "lon": 144.5, "lat": -36.8}
+                ]
+            },
+            "mark": {"type": "text", "fontSize": 13, "fontWeight": "bold", "fill": "#333333"},
+            "encoding": {
+                "longitude": {"field": "lon", "type": "quantitative"},
+                "latitude": {"field": "lat", "type": "quantitative"},
+                "text": {"field": "state", "type": "nominal"}
+            }
+        },
+        {
+            "data": {
+                "values": [
+                    {"state": "Tasmania", "lon": 146.6, "lat": -41.5}
+                ]
+            },
+            "mark": {"type": "text", "align": "left", "baseline": "middle", "dx": 35, "dy": 15, "fontSize": 13, "fontWeight": "bold", "fill": "#333333"},
+            "encoding": {
+                "longitude": {"field": "lon", "type": "quantitative"},
+                "latitude": {"field": "lat", "type": "quantitative"},
+                "text": {"field": "state", "type": "nominal"}
+            }
+        },
+        {
+            "data": {
+                "values": [
+                    {"state": "Australian Capital Territory", "label": "Canberra", "lon": 150.3, "lat": -36.5}
+                ]
+            },
+            "mark": {"type": "text", "align": "left", "baseline": "middle", "dx": 30, "dy": -10, "fontSize": 12, "fontWeight": "bold", "fill": "#333333"},
+            "encoding": {
+                "longitude": {"field": "lon", "type": "quantitative"},
+                "latitude": {"field": "lat", "type": "quantitative"},
+                "text": {"field": "label", "type": "nominal"}
+            }
+        },
+        {
+            "data": {
+                "values": [
+                    {
+                        "state": "Australian Capital Territory",
+                        "start_lon": 149.0,
+                        "start_lat": -35.4,
+                        "end_lon": 152,
+                        "end_lat": -35.5
+                    }
+                ]
+            },
+            "mark": {"type": "rule", "stroke": "#333333", "strokeWidth": 1.2},
+            "encoding": {
+                "longitude": {"field": "start_lon", "type": "quantitative"},
+                "latitude": {"field": "start_lat", "type": "quantitative"},
+                "longitude2": {"field": "end_lon"},
+                "latitude2": {"field": "end_lat"}
+            }
+        }
+    ],
+    "config": {
+        "view": {"stroke": "transparent"}
+    }
+}

@@ -1,0 +1,141 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "background": "transparent",
+    "width": 800,
+    "height": 600,
+    "autosize": "none",
+    "projection": {
+        "type": "conicEqualArea",
+        "parallels": [-18, -36],
+        "rotate": [-132, 0, 0],
+        "center": [0, -28.5], 
+        "scale": 900
+    },
+    "params": [
+        {
+            "name": "State_Selection",
+            "value": "All", 
+            "bind": {
+                "input": "select",
+                "options": [
+                    "All",
+                    "New South Wales",
+                    "Victoria",
+                    "Queensland",
+                    "South Australia",
+                    "Western Australia",
+                    "Tasmania",
+                    "Northern Territory",
+                    "Australian Capital Territory"
+                ],
+                "name": "Select State: "
+            }
+        }
+    ],
+    "layer": [
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/cheehsian-1120/FIT3179/main/json/australia_lga.topojson",
+                "format": {
+                    "type": "topojson",
+                    "feature": "LGA_2021_AUST_GDA2020"
+                }
+            },
+            "transform": [
+                {
+                    "filter": "datum.properties.STE_NAME21 != 'Other Territories' && datum.properties.STE_NAME21 != 'Outside Australia'"
+                },
+                {
+                    "lookup": "properties.LGA_CODE21",
+                    "from": {
+                        "data": {
+                            "url": "https://raw.githubusercontent.com/cheehsian-1120/FIT3179/main/data/graph_4.csv"
+                        },
+                        "key": "LGA_Code",
+                        "fields": [
+                            "LGA_Name",
+                            "State",
+                            "Heart_Disease_ASR_100k"
+                        ]
+                    }
+                },
+                {
+                    "filter": "isValid(datum.State)"
+                }
+            ],
+            "mark": {
+                "type": "geoshape",
+                "stroke": "white",
+                "strokeWidth": 0.7
+            },
+            "encoding": {
+                "color": {
+                    "condition": {
+                        "test": "State_Selection == 'All' || datum.properties.STE_NAME21 == State_Selection",
+                        "field": "Heart_Disease_ASR_100k",
+                        "type": "quantitative",
+                        "scale": {
+                            "range": ["#fae6e1", "#f4a582", "#d6604d", "#b2182b", "#8c1527"],
+                            "domain": [0, 20.0] 
+                        },
+                        "legend": {
+                            "title": "Age-Standardize Rate (per 100k)",
+                            "orient": "none",
+                            "legendX": 120,
+                            "legendY": 490,
+                            "direction": "horizontal",
+                            "titleFontSize": 14.5,
+                            "titleColor": "#444",
+                            "labelFontSize": 13,
+                            "labelColor": "#555",
+                            "titleLimit": 400,
+                            "gradientLength": 220,
+                            "offset": -110,
+                            "padding": 20
+                        }
+                    },
+                    "value": "#eaeaea"
+                },
+                "tooltip": [
+                    {"field": "State", "title": "State"},
+                    {"field": "LGA_Name", "title": "Local Government Area"},
+                    {"field": "Heart_Disease_ASR_100k", "title": "Age-Standardize Rate", "format": ",.2f"}
+                ]
+            }
+        },
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/cheehsian-1120/FIT3179/main/json/australia_state.topojson",
+                "format": {
+                    "type": "topojson",
+                    "feature": "STE_2021_AUST_GDA2020"
+                }
+            },
+            "transform": [
+                {
+                    "filter": "datum.properties.STE_NAME21 != 'Other Territories' && datum.properties.STE_NAME21 != 'Outside Australia'"
+                }
+            ],
+            "mark": {
+                "type": "geoshape",
+                "fill": null,
+                "stroke": "black",
+                "strokeWidth": 0.6
+            },
+            "encoding": {
+                "opacity": {
+                    "condition": {
+                        "test": "State_Selection == 'All' || datum.properties.STE_NAME21 == State_Selection",
+                        "value": 1
+                    },
+                    "value": 0.15
+                }
+            }
+        }
+    ],
+    "config": {
+        "view": {
+            "stroke": "transparent"
+        }
+    }
+}

@@ -1,0 +1,11 @@
+﻿Comorbidity Condition,Arthritis,Asthma,Dorsopathies,Cancer,Chronic Obstructive Pulmonary Disease,Diabetes Mellitus,"Heart, Stroke and Vascular Disease",Kidney Disease,Mental and Behavioural Conditions,Osteoporosis
+Arthritis,100,17,36.3,5.4,7.8,15.1,17,2.8,38.1,10.1
+Asthma,22.7,100,24.6,2.8,9.8,8.3,8.5,1.9,41.3,5.4
+Dorsopathies,33.6,17,100,3.7,6.7,9.7,12.4,1.9,43.3,7.5
+Cancer,43.4,16.6,32.3,100,11.4,13.6,22.1,2.4,35.8,14.6
+Chronic Obstructive Pulmonary Disease,45.2,42.4,41.9,8.2,100,13.8,24.1,4.8,48.6,11.6
+Diabetes Mellitus,41.3,16.9,28.5,4.6,6.5,100,23.5,5.2,34.5,7.1
+"Heart, Stroke and Vascular Disease",47.2,17.8,37.3,7.6,11.6,23.9,100,5.8,38.5,12.2
+Kidney Disease,41.3,21.2,30.1,4.5,12.4,28.2,31.2,100,37.4,11.8
+Mental and Behavioural Conditions,21.2,17.2,26,2.5,4.7,7,7.7,1.4,100,4.3
+Osteoporosis,43.5,17.5,35.1,7.8,8.6,11.1,18.9,3.4,33.5,100

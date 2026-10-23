@@ -1,0 +1,360 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "background": "transparent",
+    "width": 650,
+    "height": 750,
+    "padding": {"bottom": -80, "top": -30},
+    "params": [
+        {
+            "name": "Health_Risk",
+            "value": "Smoking_Pct"
+        }
+    ],
+    "data": {
+        "url": "https://raw.githubusercontent.com/cheehsian-1120/FIT3179/main/data/hexCarto.csv",
+        "format": {
+            "type": "csv",
+            "parse": {
+                "X": "number",
+                "Y": "number",
+                "Smoking_Pct": "number",
+                "Obesity_Pct": "number",
+                "Hypertension_Pct": "number",
+                "Ttl_Population": "number"
+            }
+        }
+    },
+    "layer": [
+        {
+            "transform": [
+                {
+                    "calculate": "datum.X + (datum.Y % 2 == 1 ? 0.5 : 0)",
+                    "as": "Plot_X"
+                },
+                {
+                    "calculate": "datum.Y * 0.866025",
+                    "as": "Plot_Y"
+                },
+                {
+                    "calculate": "datum[Health_Risk]",
+                    "as": "Active_Value"
+                }
+            ],
+            "params": [
+                {
+                    "name": "hover",
+                    "select": {
+                        "type": "point",
+                        "fields": [
+                            "State"
+                        ],
+                        "on": "mouseover",
+                        "clear": "mouseout"
+                    }
+                }
+            ],
+            "mark": {
+                "type": "point",
+                "shape": "M -1 0 M 1 0 M 0 -1 L 0.866025 -0.5 L 0.866025 0.5 L 0 1 L -0.866025 0.5 L -0.866025 -0.5 Z",
+                "size": 3333,
+                "stroke": "#f4f7f6",
+                "strokeWidth": 1.5,
+                "filled": true
+            },
+            "encoding": {
+                "x": {
+                    "field": "Plot_X",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [-0.5, 12.5]
+                    },
+                    "axis": null
+                },
+                "y": {
+                    "field": "Plot_Y",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [-0.5, 14.5],
+                        "reverse": true
+                    },
+                    "axis": null
+                },
+                "color": {
+                    "field": "Active_Value",
+                    "type": "quantitative",
+                    "scale": {
+                        "range": ["#f7c8bc", "#f4a582", "#d6604d", "#b2182b", "#8c1527"]
+                    },
+                    "legend": {
+                        "title": "Prevalence (%)",
+                        "orient": "none",
+                        "direction": "horizontal",
+                        "titleFontSize": 17,
+                        "titleColor": "#444",
+                        "labelFontSize": 15,
+                        "labelColor": "#555",
+                        "legendX": 20,
+                        "legendY": 600,
+                        "gradientLength": 220
+                    }
+                },
+                "opacity": {
+                    "condition": {
+                        "param": "hover",
+                        "empty": true,
+                        "value": 1
+                    },
+                    "value": 0.3
+                },
+                "tooltip": [
+                    {
+                        "field": "State",
+                        "type": "nominal",
+                        "title": "State"
+                    },
+                    {
+                        "field": "Active_Value",
+                        "type": "quantitative",
+                        "title": "Rate (%)",
+                        "format": ".1f"
+                    },
+                    {
+                        "field": "Ttl_Population",
+                        "type": "quantitative",
+                        "title": "Adult Population",
+                        "format": ","
+                    }
+                ]
+            }
+        },
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/cheehsian-1120/FIT3179/main/data/hexCarto2.csv",
+                "format": {
+                    "type": "csv",
+                    "parse": {
+                        "x": "number",
+                        "y": "number",
+                        "x2": "number",
+                        "y2": "number",
+                        "State": "string"
+                    }
+                }
+            },
+            "mark": {
+                "type": "rule",
+                "color": "#000000",
+                "strokeWidth": 2.5
+            },
+            "encoding": {
+                "x": {
+                    "field": "x",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [-0.5, 12.5]
+                    },
+                    "axis": null
+                },
+                "y": {
+                    "field": "y",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [-0.5, 14.5],
+                        "reverse": true
+                    },
+                    "axis": null
+                },
+                "x2": {
+                    "field": "x2"
+                },
+                "y2": {
+                    "field": "y2"
+                },
+                "opacity": {
+                    "condition": {
+                        "param": "hover",
+                        "empty": true,
+                        "value": 1
+                    },
+                    "value": 0.0
+                }
+            }
+        },
+        {
+            "transform": [
+                {
+                    "calculate": "datum.X + (datum.Y % 2 == 1 ? 0.5 : 0)",
+                    "as": "Plot_X"
+                },
+                {
+                    "calculate": "datum.Y * 0.866025",
+                    "as": "Plot_Y"
+                },
+                {
+                    "calculate": "datum[Health_Risk]",
+                    "as": "Active_Value"
+                },
+                {
+                    "joinaggregate": [
+                        {
+                            "op": "mean",
+                            "field": "Active_Value",
+                            "as": "State_Avg"
+                        }
+                    ],
+                    "groupby": [
+                        "State"
+                    ]
+                },
+                {
+                    "joinaggregate": [
+                        {
+                            "op": "min",
+                            "field": "Active_Value",
+                            "as": "Global_Min"
+                        },
+                        {
+                            "op": "max",
+                            "field": "Active_Value",
+                            "as": "Global_Max"
+                        }
+                    ]
+                },
+                {
+                    "window": [
+                        {
+                            "op": "row_number",
+                            "as": "Tile_Index"
+                        }
+                    ],
+                    "groupby": [
+                        "State"
+                    ]
+                },
+                {
+                    "filter": "datum.Tile_Index == 1"
+                },
+                {
+                    "calculate": "(datum.State_Avg - datum.Global_Min) / (datum.Global_Max - datum.Global_Min)",
+                    "as": "Normalized_Intensity"
+                }
+            ],
+            "mark": {
+                "type": "text",
+                "fontSize": 13,
+                "fontWeight": "bold"
+            },
+            "encoding": {
+                "x": {
+                    "field": "Plot_X",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [-0.5, 12.5]
+                    },
+                    "axis": null
+                },
+                "y": {
+                    "field": "Plot_Y",
+                    "type": "quantitative",
+                    "scale": {
+                        "domain": [-0.5, 14.5],
+                        "reverse": true
+                    },
+                    "axis": null
+                },
+                "text": {
+                    "field": "State",
+                    "type": "nominal"
+                },
+                "color": {
+                    "condition": {
+                        "test": "datum.Normalized_Intensity > 0.45",
+                        "value": "white"
+                    },
+                    "value": "#3a0911"
+                },
+                "opacity": {
+                    "condition": {
+                        "param": "hover",
+                        "empty": true,
+                        "value": 1
+                    },
+                    "value": 0.3
+                }
+            }
+        },
+        {
+            "data": {
+                "values": [
+                    {"x": 0.2, "y": 10.7, "label": "250,000 Adults"}
+                ]
+            },
+            "layer": [
+                {
+                    "mark": {
+                        "type": "point",
+                        "shape": "M -1 0 M 1 0 M 0 -1 L 0.866025 -0.5 L 0.866025 0.5 L 0 1 L -0.866025 0.5 L -0.866025 -0.5 Z",
+                        "size": 1500,
+                        "color": "#b2182b",
+                        "stroke": "#f4f7f6",
+                        "strokeWidth": 1.5,
+                        "filled": true
+                    },
+                    "encoding": {
+                        "x": {
+                            "field": "x",
+                            "type": "quantitative",
+                            "scale": {"domain": [-0.5, 12.5]},
+                            "axis": null
+                        },
+                        "y": {
+                            "field": "y",
+                            "type": "quantitative",
+                            "scale": {"domain": [-0.5, 14.5], "reverse": true},
+                            "axis": null
+                        }
+                    }
+                },
+                {
+                    "mark": {
+                        "type": "text",
+                        "align": "left",
+                        "dx": 25,
+                        "fontSize": 17,
+                        "fontWeight": "bold",
+                        "color": "#555555cd"
+                    },
+                    "encoding": {
+                        "x": {
+                            "field": "x",
+                            "type": "quantitative",
+                            "scale": {"domain": [-0.5, 12.5]},
+                            "axis": null
+                        },
+                        "y": {
+                            "field": "y",
+                            "type": "quantitative",
+                            "scale": {"domain": [-0.5, 14.5], "reverse": true},
+                            "axis": null
+                        },
+                        "text": {
+                            "field": "label",
+                            "type": "nominal"
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "resolve": {
+        "scale": {
+            "x": "shared",
+            "y": "shared"
+        }
+    },
+    "config": {
+        "view": {
+            "stroke": "transparent"
+        }
+    }
+}

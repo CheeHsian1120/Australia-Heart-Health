@@ -1,0 +1,176 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Waterfall chart of Cardiovascular Disease Expenditure",
+    "background": "transparent",
+    "width": 900,
+    "height": 350,
+    "data": {
+        "url": "https://raw.githubusercontent.com/cheehsian-1120/FIT3179/main/data/cost.csv",
+        "format": {
+            "type": "csv"
+        }
+    },
+    "transform": [
+        {
+            "calculate": "replace(datum['Total expenditure $'], /,/g, '')",
+            "as": "raw_amount"
+        },
+        {
+            "calculate": "toNumber(datum.raw_amount) / 1000000000",
+            "as": "OriginalAmount"
+        },
+        {
+            "calculate": "datum['Areas of expenditure'] == 'Public hospital admitted patient' ? 'Public Hospital Admissions' : datum['Areas of expenditure'] == 'Private hospital admitted patient' ? 'Private Hospital Admissions' : datum['Areas of expenditure'] == 'Pharmaceutical benefits scheme' ? 'Pharmaceutical Benefits Scheme (PBS)' : datum['Areas of expenditure'] == 'Medical imaging' ? 'Medical Imaging' : datum['Areas of expenditure'] == 'Public hospital emergency department' ? 'Public Hospital Emergency Department' : datum['Areas of expenditure'] == 'Public hospital outpatient' ? 'Public Hospital Outpatient' : (datum['Areas of expenditure'] == 'General practitioner services' || datum['Areas of expenditure'] == 'Specialist services') ? 'General Practitioner Services' : datum['Areas of expenditure'] == 'All areas' ? 'Total Expenditure' : 'Other Services'",
+            "as": "Category_Raw"
+        },
+        {
+            "aggregate": [
+                {
+                    "op": "sum",
+                    "field": "OriginalAmount",
+                    "as": "OriginalAmount"
+                }
+            ],
+            "groupby": [
+                "Category_Raw"
+            ]
+        },
+        {
+            "calculate": "datum.Category_Raw == 'Total Expenditure' ? -datum.OriginalAmount : datum.OriginalAmount",
+            "as": "Amount"
+        },
+        {
+            "calculate": "datum.Category_Raw == 'Public Hospital Admissions' ? 1 : datum.Category_Raw == 'Private Hospital Admissions' ? 2 : datum.Category_Raw == 'Pharmaceutical Benefits Scheme (PBS)' ? 3 : datum.Category_Raw == 'Medical Imaging' ? 4 : datum.Category_Raw == 'Public Hospital Emergency Department' ? 5 : datum.Category_Raw == 'Public Hospital Outpatient' ? 6 : datum.Category_Raw == 'General Practitioner Services' ? 7 : datum.Category_Raw == 'Other Services' ? 8 : 9",
+            "as": "SortOrder"
+        },
+        {
+            "window": [
+                {
+                    "op": "sum",
+                    "field": "Amount",
+                    "as": "sum"
+                }
+            ],
+            "sort": [
+                {
+                    "field": "SortOrder",
+                    "order": "ascending"
+                }
+            ]
+        },
+        {
+            "calculate": "datum.sum - datum.Amount",
+            "as": "previous_sum"
+        },
+        {
+            "calculate": "datum.Category_Raw == 'Total Expenditure' ? datum.OriginalAmount : datum.Amount",
+            "as": "LabelAmount"
+        },
+        {
+            "calculate": "datum.Category_Raw == 'Total Expenditure' ? datum.previous_sum : datum.sum",
+            "as": "LabelY"
+        }
+    ],
+    "encoding": {
+        "x": {
+            "field": "Category_Raw",
+            "type": "nominal",
+            "sort": {
+                "field": "SortOrder",
+                "order": "ascending"
+            },
+            "axis": {
+                "labelAngle": 0,
+                "title": "Area of Expenditure",
+                "titleColor": "#555",
+                "titleFontSize": 16,
+                "titlePadding": 15,
+                "labelFontSize": 13,
+                "labelColor": "#555",
+                "labelPadding": 10,
+                "labelLineHeight": 14,
+                "labelExpr": "split(datum.value, ' ')",
+                "labelFontWeight": {
+                    "condition": {
+                        "test": "datum.value == 'Total Expenditure'",
+                        "value": "bold"
+                    },
+                    "value": "normal"
+                }
+            }
+        }
+    },
+    "layer": [
+        {
+            "mark": {
+                "type": "bar",
+                "cornerRadius": 2
+            },
+            "encoding": {
+                "y": {
+                    "field": "previous_sum",
+                    "type": "quantitative",
+                    "title": "Annual Expenditure (Billion AUD)",
+                    "axis": {
+                        "titleFontSize": 16,
+                        "titleColor": "#555",
+                        "titlePadding": 10,
+                        "labelFontSize": 14,
+                        "labelColor": "#555",
+                        "grid": false
+                    }
+                },
+                "y2": {
+                    "field": "sum"
+                },
+                "color": {
+                    "condition": {
+                        "test": "datum.Category_Raw == 'Total Expenditure'",
+                        "value": "#8c1527"
+                    },
+                    "value": "#4a6b82"
+                },
+                "tooltip": [
+                    {
+                        "field": "Category_Raw",
+                        "type": "nominal",
+                        "title": "Area of Expenditure"
+                    },
+                    {
+                        "field": "LabelAmount",
+                        "type": "quantitative",
+                        "title": "Expenditure (Billion $)",
+                        "format": ".2f"
+                    }
+                ]
+            }
+        },
+        {
+            "mark": {
+                "type": "text",
+                "baseline": "bottom",
+                "dy": -5,
+                "fontSize": 12,
+                "fontWeight": "bold",
+                "color": "#555"
+            },
+            "encoding": {
+                "y": {
+                    "field": "LabelY",
+                    "type": "quantitative"
+                },
+                "text": {
+                    "field": "LabelAmount",
+                    "type": "quantitative",
+                    "format": ".2f"
+                }
+            }
+        }
+    ],
+    "config": {
+        "view": {
+            "stroke": "transparent"
+        },
+        "font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+    }
+}

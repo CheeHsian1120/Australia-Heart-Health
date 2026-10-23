@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Australia Heart Health</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.25.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.15.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.2"></script>
+</head>
+
+<body>
+
+    <header class="top-banner">
+        <div class="container">
+            <h1 class="logo-t1a">AUSTRALIA</h1>
+        </div>
+    </header>
+
+    <div class="state-container">
+        <div class="container">
+            <h2 class="logo-t1b">Heart Health</h2>
+        </div>
+        <hr class="red-divider">
+    </div>
+
+    <main class="container">
+        <div class="intro-container">
+            <div class="intro-text">
+                <p class="category-overline">DATA VISUALISATION</p>
+                <p class="webpage-intro">
+                    Beyond the raw data lies the true pulse of <bold>Australia's</bold> <br> <bold>heart health</bold>. This dashboard unravels the complex story of <br> <bold>Cardiovascular Disease</bold>, tracing the fault lines of <bold>risk</bold>, <bold>hospitalization</bold>, and <br> <bold>mortality</bold> across diverse communities. By exploring decades of shifting trends, <br>it reveals not just who is most vulnerable today, but how <br> the nation's ongoing fight for heart health has evolved over time.
+                </p>
+            </div>
+
+            <div class="intro-toc">
+                <h4 class="category-overline">Contents</h4>
+                <ul class="toc-list">
+                    <li><a href="#part1"><span style="font-weight: bold; color: #8c1527;">Part 1:</span> National Trends</a></li>
+                    <li><a href="#part2"><span style="font-weight: bold; color: #8c1527;">Part 2:</span> The People and Places</a></li>
+                    <li><a href="#part3"><span style="font-weight: bold; color: #8c1527;">Part 3:</span> Risks & Costs</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="part-section">
+            <h3 id="part1" class="part-title">National Trends</h3>
+            <p class="part-description">
+                For half a century, this silent killer has continuously evolved within<br>
+                the lives of Australians, quietly rewriting the rules of survival.<br>
+                As we uncover decades of historical data, it becomes clear that<br>
+                a quiet battle for the nation's health has long been underway.<br>
+            </p>
+        </div>
+
+        <div class="charts-container">
+            <!----- CHART 1 ----->
+            <div class="chart-section">
+                <h3 class="chart-title">Cardiovascular Mortality Trends (1980-2024)</h3>
+                <p class="chart-subtitle">Age-standardised death rates per 100,000 population</p>
+                
+                <div class="chart-wrapper" style="position: relative; display: flex; justify-content: center; margin-top: 20px; margin-bottom: -20px;">
+                    <div id="streamgraph"></div>
+
+                    <div style="position: absolute; top: 140px; left: calc(50% - 450px); pointer-events: none; text-align: left; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                        <div style="font-size: 15px; font-weight: 500; color: #fff; max-width: 320px; line-height: 1.4; text-shadow: 1px 1px 2px rgba(255,255,255,0.8);">
+                            Despite falling rates, <span style="color: #fff; font-weight: bold; font-size: 18px;">Coronary Heart Disease</span> remains the leading cause of death.
+                        </div>
+                    </div>
+
+                    <div style="position: absolute; top: 275px; right: 20px; pointer-events: none; text-align: right; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                        <div style="font-size: 17px; font-weight: 500; color: #444; max-width: 390px; line-height: 1.6; text-shadow: 1px 1px 2px rgba(255,255,255,0.8);">
+                            While medicine has drastically reduced deaths from arterial blockages, mortality from <span style="color: #8c1527; font-weight: bold;">structural wear-and-tear</span> remains stubbornly flat.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!----- CHART 2 ----->
+            <div class="chart-section">
+                <h3 class="chart-title">Hospitalisations and Deaths</h3>
+                <p class="chart-subtitle">2024 volume comparison across major cardiovascular conditions</p>
+                
+                <div class="chart-wrapper" style="position: relative; display: flex; justify-content: center; margin-top: 20px; margin-bottom: -20px;">
+                    <div id="hbar-chart"></div>
+
+                    <div style="position: absolute; bottom: 10px; left: 340px; pointer-events: none; text-align: right; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                        <div style="font-size: 17px; font-weight: 500; color: #444; max-width: 280px; line-height: 1.6; text-shadow: 1px 1px 2px rgba(255,255,255,0.8);">
+                            <span style="color: #4a6b82; font-weight: bold;">Coronary issues</span> and Atrial Fibrillation dominate hospital resources, driving massive admission volumes for chronic care.
+                        </div>
+                    </div>
+
+                    <div style="position: absolute; bottom: 10px; right: 20px; pointer-events: none; text-align: right; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                        <div style="font-size: 17px; font-weight: 500; color: #444; max-width: 280px; line-height: 1.6; text-shadow: 1px 1px 2px rgba(255,255,255,0.8);">
+                            Despite lower admission ranks, <span style="color: #8c1527; font-weight: bold;">Stroke</span> is exceptionally devastating, surging to the second-highest cause of absolute mortality.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!----- CHART 3 ----->
+            <div class="chart-section">
+                <h3 class="chart-title">The Heavy Cardiovascular Burden on the Aging Population</h3>
+                <p class="chart-subtitle">Estimated population suffering from heart, stroke, and vascular diseases in 2022</p>
+                
+                <div class="chart-wrapper" style="position: relative; display: flex; justify-content: center; margin-top: 20px; margin-bottom: -20px;">
+                    <div id="pyramid-chart"></div>
+
+                    <div style="position: absolute; top: 40px; right: 600px; pointer-events: none; text-align: left; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                        <div style="font-size: 17px; font-weight: 500; color: #444; max-width: 350px; line-height: 1.6; text-shadow: 1px 1px 2px rgba(255,255,255,0.8);">
+                            Patient volume <span style="color: #8c1527; font-weight: bold;">surges massively</span> for both genders in the 65+ demographic, exposing heart disease as the ultimate cumulative toll of lifelong wear-and-tear.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <div class="part-section">
+                <h3 id="part2" class="part-title" style="margin-top: -90px;">The People and Places</h3>
+                <p class="part-description" style="margin-bottom: -50px;">
+                    Following the bustling corridors of coastal metropolises, the constant sirens<br>
+                    of ambulances paint a high-pressure "heart heatmap." <br>
+                    As the nation's population irreversibly ages, which city emergency rooms <br>
+                    are bearing the unbearable weight of this demographic shift?
+                </p>
+            </div>
+
+            <!----- CHART 4 ----->
+            <div class="chart-section">
+                <h3 class="chart-title">The Comorbidity of Heart Disease and Chronic Illness</h3>
+                <p class="chart-subtitle">Probability rates of overlapping secondary conditions for diagnosed patients in 2022</p>
+
+                <div class="chart-wrapper heatmap-wrapper">
+                    <div id="heatmap" style="margin-bottom: -9px;"></div>
+
+                    <div style="position: absolute; top: 230px; left: calc(68% - 307px); pointer-events: none; text-align: left; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                        <div style="font-size: 15px; font-weight: 500; color: #555; max-width: 220px; line-height: 1.4; text-shadow: 1px 1px 2px rgba(255,255,255,0.8);">
+                            <span style="color: #1f5f4b; font-weight: bold; font-size: 18px;">47% </span>of cardiovascular patients face the compounded toll of <span style="color: #1f5f4b; font-weight: bold; font-size: 18px;">Arthritis</span>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!----- CHART 5 ----->
+            <div class="chart-section">
+                <h3 class="chart-title">Australia's Heart Disease Landscape</h3>
+                <p class="chart-subtitle">Age-Standardised Rate (ASR) per 100,000 population in 2021</p>
+
+                <div class="side-by-side-layout" style="margin-bottom: -50px;">
+
+                    <div class="chart-description storytelling-insights single-column-left">
+
+                        <div class="toggle-wrapper toggle-left">
+                            <div class="toggle-container" id="mapToggle">
+                                <div class="toggle-btn active" data-map="state">State</div>
+                                <div class="toggle-btn" data-map="lga">Shire</div>
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+
+                        <div id="dropdown-container"></div>
+
+                        <div id="insight-state" class="insight-block">
+                            <p>At the macro level, the <span style="color: #8c1527; font-weight: bold;">Northern Territory shows a markedly higher Age-Standardised Rate</span> of heart disease, highlighting unique geographic and demographic health challenges in these broader regions compared to the eastern states.</p>
+                        </div>
+
+                        <div id="insight-lga" class="insight-block" style="display: none;">
+                            <p>Zooming into the Shire level reveals a stark <span style="color: #8c1527; font-weight: bold;">coastal-inland divide</span>. Remote inland communities bear <span style="color: #8c1527; font-weight: bold;">severe cardiovascular burdens</span> compared to coastal regions, highlighting the need for targeted local interventions.</p>
+                        </div>
+                    </div>
+
+                    <div class="chart-wrapper heatmap-wrapper" style="height: auto; display: flex; align-items: flex-start; margin-top: -100px; margin-bottom: -50px;">
+                        <div id="mapContainer" style="transform: scale(0.95); transform-origin: top center; margin-left: 10px; margin-bottom: -20px;"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!----- CHART 6 ----->
+            <div class="chart-section" style="padding-bottom: 0px;">
+                <h3 class="chart-title">Healthcare Demand Hotspots</h3>
+                <p class="chart-subtitle">Visualising the sheer volume of cardiovascular admissions by local government
+                    areas in 2022/23</p>
+
+                <div class="side-by-side-layout" style="margin-bottom: -40px;">
+
+                    <div class="chart-description storytelling-insights single-column-left">
+
+                        <div id="dropdown-container-symbol"></div>
+
+                        <div class="insight-block">
+                            <p>The map starkly illustrates that <span style="color: #8c1527; font-weight: bold;">cardiovascular demand</span> is heavily skewed eastward. With the overwhelming majority of admissions concentrated in <span style="color: #8c1527; font-weight: bold;">New South Wales</span>, <span style="color: #8c1527; font-weight: bold;">Victoria</span>, and <span style="color: #8c1527; font-weight: bold;">Queensland</span>, national healthcare logistics, surgical infrastructure, and critical funding must inevitably prioritize this densely populated seaboard.</p>
+                        </div>
+                    </div>
+
+                    <div class="chart-wrapper symbol-wrapper">
+                        <div id="symbolMapContainer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <div class="part-section">
+                <h3 id="part3" class="part-title" style="margin-top: -90px;">Risks and Costs</h3>
+                <p class="part-description" style="margin-bottom: -50px;">
+                    Every seemingly small choice to light a cigarette or skip a <br>
+                    workout ultimately translates into cold surgical instruments and complex vital <br>
+                    signs. This is not just a health deficit for millions of everyday families, <br>
+                    but an astronomical bill quietly draining the nation's coffers.
+                </p>
+            </div>
+
+            <!----- CHART 7 ----->
+            <div class="chart-section">
+                <h3 class="chart-title">Australian Lifestyle Risk Factors</h3>
+                <p class="chart-subtitle">A 2022 demographic breakdown of lifestyle risks. (1 Hexagon = 250,000 Adults)
+                </p>
+
+                <div class="side-by-side-layout" style="margin-bottom: -100px;">
+                    <div class="chart-description storytelling-insights single-column-left">
+
+                        <div id="dropdown-container" style="margin-bottom: 25px;">
+                            <div class="vega-bind">
+                                <span class="vega-bind-name">Select Risk Factor:</span>
+                                <select id="riskDropdown">
+                                    <option value="Smoking_Pct">Smoking</option>
+                                    <option value="Obesity_Pct">Obesity</option>
+                                    <option value="Hypertension_Pct">Hypertension</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="insight-smoking" class="insight-block">
+                            <p><span style="color: #8c1527; font-weight: bold;">Queensland (QLD)</span> and the <span style="color: #8c1527; font-weight: bold;">Northern Territory (NT)</span> exhibit the <span style="color: #8c1527; font-weight: bold;">highest smoking</span> prevalences nationwide. Because tobacco use dramatically accelerates plaque buildup and stiffens arteries, these regions face a significantly elevated <span style="color: #8c1527; font-weight: bold;">vulnerability to heart attacks</span> and <span style="color: #8c1527; font-weight: bold;">coronary heart disease</span>, highlighting an urgent need for targeted interventions.</p>
+                        </div>
+
+                        <div id="insight-obesity" class="insight-block" style="display: none;">
+                            <p><span style="color: #8c1527; font-weight: bold;">Obesity</span> is a severe, widespread challenge, with prevalence rates <span style="color: #8c1527; font-weight: bold;">peaking dangerously high</span> in <span style="color: #8c1527; font-weight: bold;">Tasmania (TAS)</span> and the <span style="color: #8c1527; font-weight: bold;">Queensland (QLD)</span>. This systemic <span style="color: #8c1527; font-weight: bold;">metabolic burden</span> acts as a primary catalyst for future cardiovascular complications, demanding aggressive structural health interventions.</p>
+                        </div>
+
+                        <div id="insight-hypertension" class="insight-block" style="display: none;">
+                            <p><span style="color: #8c1527; font-weight: bold;">High blood pressure</span> clusters significantly in southern regions, particularly <span style="color: #8c1527; font-weight: bold;">South Australia (SA)</span> and <span style="color: #8c1527; font-weight: bold;">Tasmania (TAS)</span>. As a potent 'silent killer', unmanaged hypertension relentlessly <span style="color: #8c1527; font-weight: bold;">strains the heart muscle</span> and <span style="color: #8c1527; font-weight: bold;">weakens blood vessels</span>, laying the direct physiological groundwork for strokes and heart failure in these populations.</p>
+                        </div>
+                    </div>
+
+                    <div class="chart-wrapper heatmap-wrapper">
+                        <div id="hexCartoContainer" style="transform: scale(0.9); transform-origin: top;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!----- CHART 8 ----->
+            <div class="chart-section">
+                <h3 class="chart-title">The Weight of the Nation</h3>
+                <p class="chart-subtitle">Body Mass Index Distributions by Age in 2022</p>
+
+                <div class="chart-wrapper" style="position: relative; display: flex; justify-content: center; margin-top: 20px; margin-bottom: -20px; overflow: visible;">
+                    <div id="ridgeLineContainer"></div>
+
+                    <div style="position: absolute; bottom: 440px; right: 60px; pointer-events: none; text-align: right; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                        <div style="font-size: 17px; font-weight: 500; color: #444; max-width: 320px; line-height: 1.6; text-shadow: 1px 1px 2px rgba(255,255,255,0.8);">
+                            As the population ages, the BMI peak shifts dangerously right. By ages 45-64, a massive density crosses the <span style="color: #8c1527; font-weight: bold;"> Obesity Threshold</span>, acting as the primary catalyst for heart disease.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!----- CHART 9 ----->
+            <div class="chart-section">
+                <h3 class="chart-title">Age-Driven Medical Interventions</h3>
+                <p class="chart-subtitle">Dispensing Heart Medication by Age Segment in 2022</p>
+
+                <div class="chart-wrapper relative-wrapper" style="display: flex; justify-content: center; overflow: visible; position: relative; min-height: 450px; margin-bottom: -20px;">
+
+                    <div id="lollipopContainer"></div>
+
+                    <div style="position: absolute; top: 240px; right: 60px; pointer-events: none; text-align: right; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                        <div style="font-size: 17px; font-weight: 500; color: #444; max-width: 300px; line-height: 1.6; text-shadow: 1px 1px 2px rgba(255,255,255,0.8);">
+                            Prescriptions explode to a massive <span style="color: #5d94ba; font-weight: bold;">3.1 million</span> for the 65+ demographic, confirming systemic physiological aging as the ultimate driver.
+                        </div>
+                    </div>
+
+                    <div style="position: absolute; top: -100px; right: 60px; pointer-events: none; text-align: right; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                        <div style="font-size: 14px; font-weight: 400; color: #555; max-width: 500px; line-height: 1.6; font-style: italic;">
+                            <b>Understanding the PBS Data:</b> The Pharmaceutical Benefits Scheme (PBS) is Australia's national prescription subsidy program. Tracking actual PBS dispensing provides a highly accurate, real-world measure of disease prevalence compared to
+                            self-reported surveys.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!----- CHART 10 ----->
+            <div class="chart-section">
+                <h3 class="chart-title">Socioeconomic Medical Intervention</h3>
+                <p class="chart-subtitle">Pharmaceutical Dependency Across Socio-Economic Quintiles</p>
+
+                <div class="chart-wrapper" style="position: relative; display: flex; justify-content: center; overflow: visible; margin-top: 20px; margin-bottom: -20px;">
+                    <div id="dumbbellContainer"></div>
+
+                    <div style="position: absolute; bottom: 380px; right: 60px; pointer-events: none; text-align: right; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                        <div style="font-size: 17px; font-weight: 500; color: #444; max-width: 450px; line-height: 1.6; text-shadow: 1px 1px 2px rgba(255,255,255,0.8);">
+                            Why include <b>Antiinfectives</b> (routine antibiotics)? They act as a biological baseline, proving basic infections strike all incomes equally. In stark contrast, the metabolic and mental stress of poverty drives a <span style="color: #c97a63; font-weight: bold;">40% higher dependency</span> on cardiovascular medication.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!----- CHART 11 ----->
+            <div class="chart-section">
+                <h3 class="chart-title">The Cost of Cardiovascular Disease</h3>
+                <p class="chart-subtitle">Breaking down Australia's $16.9B annual healthcare expenditure in 2023-24</p>
+                
+                <div class="chart-wrapper" style="position: relative; display: flex; justify-content: center; overflow: visible; margin-top: 20px; margin-bottom: -20px;">
+                    <div id="waterfallContainer"></div>
+
+                    <div style="position: absolute; top: 160px; right: 250px; pointer-events: none; text-align: center; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                        <div style="font-size: 17px; font-weight: 500; color: #444; max-width: 350px; line-height: 1.6; text-shadow: 1px 1px 2px rgba(255,255,255,0.8);">
+                            A staggering <span style="color: #8c1527; font-weight: bold;">$16.9 billion</span> is drained annually. With 62% consumed by acute hospital admissions and only a fraction spent on prevention, this stark imbalance drives catastrophic structural healthcare costs.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <h3>Author</h3>
+                    <p>Tay Chee Hsian<br>34612513</p>
+                </div>
+                <div class="footer-section date">
+                    <h3>Published Date</h3>
+                    <p>23 October 2026</p>
+                </div>
+                <div class="footer-section links">
+                    <h3>Data Sources</h3>
+                    <ul>
+                        <li><a href="https://www.abs.gov.au/statistics/health/health-conditions-and-risks/heart-stroke-and-vascular-disease/latest-release"
+                                target="_blank">Australian Bureau of Statistics (ABS)</a></li>
+                        <li><a href="https://www.aihw.gov.au/reports/heart-stroke-vascular-diseases/hsvd-facts/contents/summary"
+                                target="_blank">Australian Institute of Health and Welfare (AIHW): Heart, Stroke and Vascular Disease</a></li>
+                        <li><a href="https://www.aihw.gov.au/reports/health-welfare-expenditure/health-system-spending-disease-injury-aus-2023-24/data"
+                                target="_blank">Australian Institute of Health and Welfare (AIHW): Health System Spending On Disease and Injury</a></li>
+                        <li><a href="https://phidu.torrens.edu.au/social-health-atlases/data?utm_source=gemini#social-health-atlas-of-australia-population-health-areas"
+                                target="_blank">PHIDU Torrens University Australia</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Australia Heart Health Data Visualisation. Created by Tay Chee Hsian.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // CHART 1
+        var spec1 = "json/streamgraph.json";
+        vegaEmbed('#streamgraph', spec1, {
+            actions: false
+        }).catch(console.error);
+
+        // CHART 2
+        var spec2 = "json/hBarChart.json";
+        vegaEmbed('#hbar-chart', spec2, { actions: false }).catch(console.error);
+
+        // CHART 3
+        var spec3 = "json/divergingBarChart.json";
+        vegaEmbed('#pyramid-chart', spec3, {
+            actions: false
+        }).catch(console.error);
+
+        // CHART 4
+        var spec4 = "json/heatmap.json";
+        vegaEmbed('#heatmap', spec4, {
+            actions: false
+        }).catch(console.error);
+
+        // Chart 5
+        const stateMap = "json/stateMap.json";
+        const lgaMap = "json/choroplethMap.json";
+
+        function renderMap(specUrl) {
+            const dropdownContainer = document.getElementById('dropdown-container');
+            if (dropdownContainer) {
+                dropdownContainer.innerHTML = '';
+            }
+
+            vegaEmbed('#mapContainer', specUrl, { actions: false }).then(function (result) {
+                const bindings = document.querySelector('#mapContainer .vega-bindings');
+
+                if (bindings && dropdownContainer) {
+                    dropdownContainer.appendChild(bindings);
+                }
+            }).catch(console.error);
+        }
+
+        renderMap(stateMap);
+
+        const toggleContainer = document.getElementById('mapToggle');
+        const buttons = toggleContainer.querySelectorAll('.toggle-btn');
+        const slider = toggleContainer.querySelector('.toggle-slider');
+
+        buttons.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                buttons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                slider.style.transform = `translateX(${index * 100}%)`;
+
+                if (btn.dataset.map === "state") {
+                    renderMap(stateMap);
+                    document.getElementById("insight-state").style.display = "flex";
+                    document.getElementById("insight-lga").style.display = "none";
+                } else {
+                    renderMap(lgaMap);
+                    document.getElementById("insight-state").style.display = "none";
+                    document.getElementById("insight-lga").style.display = "flex";
+                }
+            });
+        });
+
+        // CHART 6
+        const symbolMapUrl = "json/symbolMap.json";
+        vegaEmbed('#symbolMapContainer', symbolMapUrl, { actions: false }).then(function (result) {
+            const dropdownContainerSymbol = document.getElementById('dropdown-container-symbol');
+            const bindings = document.querySelector('#symbolMapContainer .vega-bindings');
+            if (bindings && dropdownContainerSymbol) {
+                dropdownContainerSymbol.appendChild(bindings);
+            }
+        }).catch(console.error);
+
+        // CHART 7
+        const hexCartoUrl = "json/hexCarto.json";
+        vegaEmbed('#hexCartoContainer', hexCartoUrl, { actions: false }).then(function (result) {
+            const view = result.view;
+
+            const riskDropdown = document.getElementById('riskDropdown');
+
+            riskDropdown.addEventListener('change', (event) => {
+                const selectedRisk = event.target.value;
+
+                view.signal('Health_Risk', selectedRisk).runAsync();
+
+                document.getElementById("insight-smoking").style.display = "none";
+                document.getElementById("insight-obesity").style.display = "none";
+                document.getElementById("insight-hypertension").style.display = "none";
+
+                if (selectedRisk === "Smoking_Pct") {
+                    document.getElementById("insight-smoking").style.display = "flex";
+                } else if (selectedRisk === "Obesity_Pct") {
+                    document.getElementById("insight-obesity").style.display = "flex";
+                } else {
+                    document.getElementById("insight-hypertension").style.display = "flex";
+                }
+            });
+        }).catch(console.error);
+
+        // CHART 8
+        const ridgeLineUrl = "json/ridgeLine.json";
+        vegaEmbed('#ridgeLineContainer', ridgeLineUrl, { actions: false }).catch(console.error);
+
+        // CHART 9
+        const lollipopUrl = "json/lollipop.json";
+        vegaEmbed('#lollipopContainer', lollipopUrl, { actions: false }).catch(console.error);
+
+        // CHART 10
+        const dumbbellUrl = "json/dumbbell.json";
+        vegaEmbed('#dumbbellContainer', dumbbellUrl, { actions: false }).catch(console.error);
+
+        // CHART 11
+        const waterfallUrl = "json/waterfall.json";
+        vegaEmbed('#waterfallContainer', waterfallUrl, {actions: false}).catch(console.error);
+
+        // Scroll Trigger Effect
+        document.addEventListener("DOMContentLoaded", function () {
+            const sections = document.querySelectorAll('.chart-section, .intro-container, .part-section');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+</body>
+
+</html>

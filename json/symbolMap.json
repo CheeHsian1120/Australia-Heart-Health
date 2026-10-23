@@ -1,0 +1,341 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "background": "transparent",
+    "width": 700,
+    "height": 500,
+    "params": [
+        {
+            "name": "Disease_Type",
+            "value": "All_Circulatory",
+            "bind": {
+                "input": "select",
+                "options": [
+                    "All_Circulatory",
+                    "Ischaemic",
+                    "Heart_Failure",
+                    "Stroke"
+                ],
+                "labels": [
+                    "All Circulatory System Diseases",
+                    "Ischaemic Heart Disease",
+                    "Heart Failure",
+                    "Stroke"
+                ],
+                "name": "Select Disease Subtype: "
+            }
+        }
+    ],
+    "projection": {
+        "type": "conicEqualArea",
+        "parallels": [-18, -36],
+        "rotate": [-132, 0, 0],
+        "center": [-5, -28], 
+        "scale": 770
+    },
+    "resolve": {
+        "scale": {
+            "size": "independent"
+        }
+    },
+    "layer": [
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/cheehsian-1120/FIT3179/main/json/australia_state.topojson",
+                "format": {
+                    "type": "topojson",
+                    "feature": "STE_2021_AUST_GDA2020"
+                }
+            },
+            "mark": {
+                "type": "geoshape",
+                "fill": "#e6e3df",
+                "stroke": "#c9c5c1",
+                "strokeWidth": 1.0
+            }
+        },
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/cheehsian-1120/FIT3179/main/data/hospitalisations.csv"
+            },
+            "transform": [
+                {
+                    "filter": "Disease_Type == 'All_Circulatory'"
+                },
+                {
+                    "filter": "datum.All_Circulatory > 0"
+                },
+                {
+                    "aggregate": [
+                        {"op": "sum", "field": "All_Circulatory", "as": "Total_All_Circulatory"},
+                        {"op": "mean", "field": "lon", "as": "lon"},
+                        {"op": "mean", "field": "lat", "as": "lat"}
+                    ],
+                    "groupby": ["State"]
+                }
+            ],
+            "mark": {
+                "type": "circle",
+                "opacity": 0.6,
+                "strokeWidth": 1.5,
+                "fill": "#4a6b82",
+                "stroke": "#2a4050"
+            },
+            "encoding": {
+                "longitude": {
+                    "field": "lon",
+                    "type": "quantitative"
+                },
+                "latitude": {
+                    "field": "lat",
+                    "type": "quantitative"
+                },
+                "size": {
+                    "field": "Total_All_Circulatory",
+                    "type": "quantitative",
+                    "scale": {
+                        "type": "sqrt",
+                        "domain": [0, 120000],
+                        "range": [0, 3000]
+                    },
+                    "legend": null
+                },
+                "tooltip": [
+                    {
+                        "field": "State",
+                        "title": "State",
+                        "type": "nominal"
+                    },
+                    {
+                        "field": "Total_All_Circulatory",
+                        "title": "Circulatory System Diseases",
+                        "type": "quantitative",
+                        "format": ","
+                    }
+                ]
+            }
+        },
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/cheehsian-1120/FIT3179/main/data/hospitalisations.csv"
+            },
+            "transform": [
+                {
+                    "filter": "Disease_Type == 'Ischaemic'"
+                },
+                {
+                    "filter": "datum.Ischaemic > 0"
+                },
+                {
+                    "aggregate": [
+                        {"op": "sum", "field": "Ischaemic", "as": "Total_Ischaemic"},
+                        {"op": "mean", "field": "lon", "as": "lon"},
+                        {"op": "mean", "field": "lat", "as": "lat"}
+                    ],
+                    "groupby": ["State"]
+                }
+            ],
+            "mark": {
+                "type": "circle",
+                "opacity": 0.6,
+                "strokeWidth": 1.5,
+                "fill": "#4a6b82",
+                "stroke": "#2a4050"
+            },
+            "encoding": {
+                "longitude": {
+                    "field": "lon",
+                    "type": "quantitative"
+                },
+                "latitude": {
+                    "field": "lat",
+                    "type": "quantitative"
+                },
+                "size": {
+                    "field": "Total_Ischaemic",
+                    "type": "quantitative",
+                    "scale": {
+                        "type": "sqrt",
+                        "domain": [0, 120000],
+                        "range": [0, 3000]
+                    },
+                    "legend": null
+                },
+                "tooltip": [
+                    {
+                        "field": "State",
+                        "title": "State",
+                        "type": "nominal"
+                    },
+                    {
+                        "field": "Total_Ischaemic",
+                        "title": "Ischaemic Heart Disease",
+                        "type": "quantitative",
+                        "format": ","
+                    }
+                ]
+            }
+        },
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/cheehsian-1120/FIT3179/main/data/hospitalisations.csv"
+            },
+            "transform": [
+                {
+                    "filter": "Disease_Type == 'Heart_Failure'"
+                },
+                {
+                    "filter": "datum.Heart_Failure > 0"
+                },
+                {
+                    "aggregate": [
+                        {"op": "sum", "field": "Heart_Failure", "as": "Total_Heart_Failure"},
+                        {"op": "mean", "field": "lon", "as": "lon"},
+                        {"op": "mean", "field": "lat", "as": "lat"}
+                    ],
+                    "groupby": ["State"]
+                }
+            ],
+            "mark": {
+                "type": "circle",
+                "opacity": 0.6,
+                "strokeWidth": 1.5,
+                "fill": "#4a6b82",
+                "stroke": "#2a4050"
+            },
+            "encoding": {
+                "longitude": {
+                    "field": "lon",
+                    "type": "quantitative"
+                },
+                "latitude": {
+                    "field": "lat",
+                    "type": "quantitative"
+                },
+                "size": {
+                    "field": "Total_Heart_Failure",
+                    "type": "quantitative",
+                    "scale": {
+                        "type": "sqrt",
+                        "domain": [0, 120000],
+                        "range": [0, 3000]
+                    },
+                    "legend": null
+                },
+                "tooltip": [
+                    {
+                        "field": "State",
+                        "title": "State",
+                        "type": "nominal"
+                    },
+                    {
+                        "field": "Total_Heart_Failure",
+                        "title": "Heart Failure",
+                        "type": "quantitative",
+                        "format": ","
+                    }
+                ]
+            }
+        },
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/cheehsian-1120/FIT3179/main/data/hospitalisations.csv"
+            },
+            "transform": [
+                {
+                    "filter": "Disease_Type == 'Stroke'"
+                },
+                {
+                    "filter": "datum.Stroke > 0"
+                },
+                {
+                    "aggregate": [
+                        {"op": "sum", "field": "Stroke", "as": "Total_Stroke"},
+                        {"op": "mean", "field": "lon", "as": "lon"},
+                        {"op": "mean", "field": "lat", "as": "lat"}
+                    ],
+                    "groupby": ["State"]
+                }
+            ],
+            "mark": {
+                "type": "circle",
+                "opacity": 0.6,
+                "strokeWidth": 1.5,
+                "fill": "#4a6b82",
+                "stroke": "#2a4050"
+            },
+            "encoding": {
+                "longitude": {
+                    "field": "lon",
+                    "type": "quantitative"
+                },
+                "latitude": {
+                    "field": "lat",
+                    "type": "quantitative"
+                },
+                "size": {
+                    "field": "Total_Stroke",
+                    "type": "quantitative",
+                    "scale": {
+                        "type": "sqrt",
+                        "domain": [0, 120000],
+                        "range": [0, 3000]
+                    },
+                    "legend": null
+                },
+                "tooltip": [
+                    {
+                        "field": "State",
+                        "title": "State",
+                        "type": "nominal"
+                    },
+                    {
+                        "field": "Total_Stroke",
+                        "title": "Stroke",
+                        "type": "quantitative",
+                        "format": ","
+                    }
+                ]
+            }
+        },
+        {
+            "data": {
+                "values": [{"dummy_data": 120000, "lon": 0, "lat": 0}]
+            },
+            "mark": {
+                "type": "circle",
+                "fill": "#999999",
+                "stroke": "#666666",
+                "opacity": 0, 
+                "strokeWidth": 1.5
+            },
+            "encoding": {
+                "longitude": {"field": "lon", "type": "quantitative"},
+                "latitude": {"field": "lat", "type": "quantitative"},
+                "size": {
+                    "field": "dummy_data",
+                    "type": "quantitative",
+                    "title": "Hospital Admissions",
+                    "scale": {
+                        "type": "sqrt",
+                        "domain": [0, 120000],
+                        "range": [0, 3000]
+                    },
+                    "legend": {
+                        "orient": "none",
+                        "legendX": 20,
+                        "legendY": 6,
+                        "rowPadding": 15,
+                        "values": [20000, 60000, 120000],
+                        "format": ",.0f",
+                        "direction": "vertical",
+                        "titleFontSize": 15,
+                        "titleColor": "#555",
+                        "labelFontSize": 13,
+                        "labelColor": "#555",
+                        "symbolOpacity": 0.7 
+                    }
+                }
+            }
+        }
+    ]
+}

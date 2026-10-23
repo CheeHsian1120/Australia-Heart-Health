@@ -1,0 +1,98 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "background": "transparent",
+    "width": 1090,
+    "height": 450,
+    "autosize": {
+        "type": "fit",
+        "contains": "padding"
+    },
+    "data": {
+        "url": "https://raw.githubusercontent.com/cheehsian-1120/FIT3179/main/data/graph_2.csv"
+    },
+    "transform": [
+        {
+            "calculate": "datum.Gender == 'Males' ? -datum.Population : datum.Population",
+            "as": "Signed_Population"
+        }
+    ],
+    "mark": {
+        "type": "bar",
+        "tooltip": true
+    },
+    "encoding": {
+        "y": {
+            "field": "Age Group",
+            "type": "ordinal",
+            "sort": ["0-14", "15-24", "25-34", "35-44", "45-54", "55-64", "65+"],
+            "axis": {
+                "title": "Age Group",
+                "titleFontSize": 16,
+                "titleColor": "#555",
+                "labelFontSize": 14,
+                "labelColor": "#555",
+                "titlePadding": 25,
+                "domain": false,
+                "ticks": false,
+                "offset": 10
+            }
+        },
+        "x": {
+            "field": "Signed_Population",
+            "type": "quantitative",
+            "title": "Population",
+            "axis": {
+                "labelExpr": "abs(datum.value)",
+                "titleFontSize": 16,
+                "titleColor": "#555",
+                "labelFontSize": 14,
+                "labelColor": "#555",
+                "titlePadding": 25,
+                "grid": false,
+                "tickCount": 6
+            }
+        },
+        "color": {
+            "field": "Gender",
+            "type": "nominal",
+            "scale": {
+                "domain": ["Males", "Females"],
+                "range": ["#49796b", "#76618c"]
+            },
+            "legend": {
+                "title": "Gender",
+                "orient": "top-right",
+                "offset": 0,
+                "fillColor": "transparent",
+                "padding": 5,
+                "titleFontSize": 16,
+                "titleColor": "#444",
+                "labelFontSize": 14,
+                "labelColor": "#555",
+                "symbolSize": 150
+            }
+        },
+        "tooltip": [
+            {
+                "field": "Gender",
+                "type": "nominal"
+            },
+            {
+                "field": "Age Group",
+                "type": "ordinal"
+            },
+            {
+                "field": "Population",
+                "type": "quantitative",
+                "format": ",",
+                "title": "Total Affected"
+            }
+        ]
+    },
+    "config": {
+        "view": {
+            "stroke": "transparent"
+        },
+        "font": "sans-serif"
+    }
+}

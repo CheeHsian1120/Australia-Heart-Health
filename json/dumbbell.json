@@ -1,0 +1,159 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Dumbbell plot showing socio-economic disparities in medication dispensing.",
+    "data": {
+        "url": "https://raw.githubusercontent.com/cheehsian-1120/FIT3179/main/data/pbs.csv"
+    },
+    "background": "transparent",
+    "width": 800,
+    "height": 300,
+    "transform": [
+        {
+            "calculate": "trim(datum['Income Quintile'])",
+            "as": "Income Quintile Clean"
+        }
+    ],
+    "encoding": {
+        "y": {
+            "field": "Medications",
+            "type": "nominal",
+            "sort": "-x",
+            "axis": {
+                "title": "Medication Category",
+                "titleFontSize": 16,
+                "titleColor": "#555",
+                "titlePadding": 15,
+                "labelFontSize": 14,
+                "labelColor": "#555",
+                "labelPadding": 10,
+                "labelLimit": 500,
+                "grid": false,
+                "ticks": true,
+                "labelExpr": "datum.value == 'Alimentary Tract and Metabolism' ? ['Alimentary Tract', '& Metabolism'] : datum.value == 'Antiinfectives for Systemic Use' ? ['Antiinfectives for', 'Systemic Use'] : datum.value",
+                "labelLineHeight": 18
+            }
+        },
+        "x": {
+            "field": "Proportion (%)",
+            "type": "quantitative",
+            "title": "Per-Capita Dispensing Rate (%)",
+            "axis": {
+                "titleFontSize": 16,
+                "titleColor": "#555",
+                "titlePadding": 15,
+                "labelFontSize": 14,
+                "labelColor": "#555",
+                "grid": false,
+                "tickCount": 9
+            }
+        }
+    },
+    "layer": [
+        {
+            "mark": {
+                "type": "line",
+                "color": "#ced4da",
+                "strokeWidth": 5
+            },
+            "encoding": {
+                "detail": {
+                    "field": "Medications",
+                    "type": "nominal"
+                }
+            }
+        },
+        {
+            "mark": {
+                "type": "circle",
+                "opacity": 1,
+                "size": 350
+            },
+            "encoding": {
+                "color": {
+                    "field": "Income Quintile Clean",
+                    "type": "nominal",
+                    "scale": {
+                        "domain": [
+                            "First quintile",
+                            "Fifth quintile"
+                        ],
+                        "range": [
+                            "#c97a63", 
+                            "#9a8f85"
+                        ]
+                    },
+                    "legend": {
+                        "title": "Socio-Economic Status",
+                        "titleColor": "#444",
+                        "orient": "top",
+                        "titleFontSize": 16,
+                        "labelFontSize": 14,
+                        "labelColor": "#555",
+                        "padding": 0
+                    }
+                },
+                "tooltip": [
+                    {
+                        "field": "Medications",
+                        "type": "nominal"
+                    },
+                    {
+                        "field": "Income Quintile Clean",
+                        "type": "nominal",
+                        "title": "Quintile"
+                    },
+                    {
+                        "field": "Proportion (%)",
+                        "type": "quantitative",
+                        "title": "Dispensing Rate (%)"
+                    }
+                ]
+            }
+        },
+        {
+            "mark": {
+                "type": "text",
+                "baseline": "middle",
+                "fontSize": 13,
+                "fontWeight": "bold",
+                "align": {
+                    "expr": "datum['Income Quintile Clean'] == 'First quintile' ? 'left' : 'right'"
+                },
+                "dx": {
+                    "expr": "datum['Income Quintile Clean'] == 'First quintile' ? 15 : -15"
+                }
+            },
+            "encoding": {
+                "text": {
+                    "field": "Proportion (%)",
+                    "type": "quantitative",
+                    "format": ".1f"
+                },
+                "color": {
+                    "field": "Income Quintile Clean",
+                    "type": "nominal",
+                    "legend": null,
+                    "scale": {
+                        "domain": [
+                            "First quintile",
+                            "Fifth quintile"
+                        ],
+                        "range": [
+                            "#c97a63", 
+                            "#9a8f85"
+                        ]
+                    }
+                }
+            }
+        }
+    ],
+    "config": {
+        "view": {
+            "stroke": "transparent"
+        },
+        "axis": {
+            "domain": true
+        },
+        "font": "Segoe UI, sans-serif"
+    }
+}

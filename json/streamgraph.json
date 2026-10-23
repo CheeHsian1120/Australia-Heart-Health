@@ -1,0 +1,149 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "background": "transparent",
+    "width": 1090,
+    "height": 450,
+    "autosize": {
+        "type": "fit",
+        "contains": "padding"
+    },
+    "data": {
+        "url": "https://raw.githubusercontent.com/cheehsian-1120/FIT3179/main/data/graph_1.csv"
+    },
+    "transform": [
+        {
+            "fold": [
+                "Coronary Heart Disease",
+                "Stroke",
+                "Heart Failure and Cardiomyopathy",
+                "Atrial Fibrillation",
+                "Peripheral Arterial",
+                "Rheumatic Heart Disease",
+                "Congenital Heart Disease"
+            ],
+            "as": [
+                "Original_Condition",
+                "Mortality_Rate"
+            ]
+        },
+        {
+            "calculate": "datum.Original_Condition == 'Coronary Heart Disease' || datum.Original_Condition == 'Stroke' || datum.Original_Condition == 'Heart Failure and Cardiomyopathy' ? datum.Original_Condition : 'Other'",
+            "as": "Condition"
+        },
+        {
+            "aggregate": [
+                {
+                    "op": "sum",
+                    "field": "Mortality_Rate",
+                    "as": "Mortality_Rate"
+                }
+            ],
+            "groupby": [
+                "Year",
+                "Condition"
+            ]
+        }
+    ],
+    "mark": {
+        "type": "area",
+        "line": true,
+        "tooltip": true
+    },
+    "encoding": {
+        "x": {
+            "field": "Year",
+            "type": "temporal",
+            "title": "Year",
+            "axis": {
+                "format": "%Y",
+                "tickCount": 10,
+                "titlePadding": 20,
+                "grid": false,
+                "labelAngle": 0,
+                "labelColor": "#555",
+                "titleFontSize": 16,
+                "titleColor": "#555",
+                "labelFontSize": 14
+            }
+        },
+        "y": {
+            "field": "Mortality_Rate",
+            "type": "quantitative",
+            "stack": "center",
+            "axis": {
+                "title": "Age-Standardised Rate",
+                "tickCount": 6,
+                "titlePadding": 20,
+                "grid": false,
+                "gridColor": "#eaeaea",
+                "labelAngle": 0,
+                "labelColor": "#555",
+                "titleFontSize": 16,
+                "titleColor": "#555",
+                "labelFontSize": 14
+            }
+        },
+        "color": {
+            "field": "Condition",
+            "type": "nominal",
+            "scale": {
+                "domain": [
+                    "Coronary Heart Disease",
+                    "Stroke",
+                    "Heart Failure and Cardiomyopathy",
+                    "Other"
+                ],
+                "range": [
+                    "#8c1527", 
+                    "#cf253a", 
+                    "#a8a39d", 
+                    "#cccccc"
+                ]
+            },
+            "sort": [
+                "Coronary Heart Disease",
+                "Stroke",
+                "Heart Failure and Cardiomyopathy",
+                "Other"
+            ],
+            "legend": {
+                "title": "Underlying Cause",
+                "orient": "top-right",
+                "offset": 0,
+                "fillColor": "transparent",
+                "padding": 2,
+                "titleFontSize": 16,
+                "titleColor": "#444",
+                "labelFontSize": 14,
+                "labelColor": "#555",
+                "symbolSize": 150,
+                "labelLimit": 300
+            }
+        },
+        "tooltip": [
+            {
+                "field": "Year",
+                "type": "temporal",
+                "format": "%Y",
+                "title": "Year "
+            },
+            {
+                "field": "Condition",
+                "type": "nominal",
+                "title": "Disease Category "
+            },
+            {
+                "field": "Mortality_Rate",
+                "type": "quantitative",
+                "format": ".1f",
+                "title": "Age-Standardise Rate "
+            }
+        ]
+    },
+    "config": {
+        "view": {
+            "stroke": "transparent"
+        },
+        "font": "sans-serif"
+    }
+}
